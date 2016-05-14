@@ -3,17 +3,19 @@ PGraphics work;
 
 PImage rabatDroitSimple, rabatGaucheSimple;
 int zoom = 10;
-
+PVector posWork;
 
 void setup() {
   size(500, 500);
-
+  posWork = new PVector(0, 0);
   loadFile(10);
 }
 
+
 void draw() {
   background(255);
-  image(work, -mouseX+file.width/2, -mouseY+file.height/2);
+  mousePress();
+  image(work, posWork.x, posWork.y);
 }
 
 void loadFile() {
@@ -21,7 +23,7 @@ void loadFile() {
 }
 
 void loadFile(int zoom) {
-  file = loadImage("neutre.png");
+  file = loadImage("02_gem.blend_page1-03.png");
   work = createGraphics(file.width * zoom + 200, file.height*zoom+1);
 
 
@@ -39,8 +41,8 @@ void loadFile(int zoom) {
     work.noFill();
     work.stroke(0);
     work.textSize(zoom);
-    work.text("L :"+j,work.width-180,j*zoom-zoom);
-    
+    work.text("L :"+j, work.width-180, j*zoom-zoom);
+
     for (int i=0; i<file.width; i++) {
       int posX = i *zoom, posY = j*zoom;  
 
@@ -55,7 +57,7 @@ void loadFile(int zoom) {
         if (index%5 == 0) {
           work.stroke(0);
           work.noFill();
-          work.line(posX+zoom/5,posY+zoom/2,posX+zoom-zoom/5, posY+zoom/2);
+          work.line(posX+zoom/5, posY+zoom/2, posX+zoom-zoom/5, posY+zoom/2);
         } else {
           work.noStroke();
           work.fill(0);
@@ -70,6 +72,45 @@ void loadFile(int zoom) {
   work.endDraw();
 }
 
+//=======================================
+//
+//    Events
+//
+//=======================================
+
+PVector mouseClicked;
+void mousePressed() {
+  mouseClicked = new PVector(mouseX, mouseY);
+  println("mouseClicked: [x]:"+mouseClicked.x+"  [y]:"+mouseClicked.y);
+  //println(posWork);
+}
+
+void mousePress(){
+  if (mousePressed == true) {
+ 
+    
+    if ( keyPressed == true && keyCode == SHIFT) {
+ 
+      if(posWork.x < -work.width){
+        posWork.x = -work.width;
+      }
+      if(posWork.x > work.width){
+        posWork.x = work.width;
+      }
+      if(posWork.y < -work.height){
+        posWork.y = -work.height;
+      }
+      if(posWork.y > work.height){
+        posWork.y = work.height;
+      }
+          
+      if (posWork.x >= -work.width && posWork.x <= work.width
+        && posWork.y >= -work.height && posWork.y <= work.height) {         
+        posWork.set(mouseX - mouseClicked.x , mouseY - mouseClicked.y);
+      }
+    }
+  }
+}
 
 void keyReleased() {
   if (key == 'e') {
