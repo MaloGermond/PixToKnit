@@ -6,16 +6,19 @@ int zoom = 10;
 PVector posWork;
 
 void setup() {
-  size(500, 500);
+  size(800, 500);
+  initGUI();
   posWork = new PVector(0, 0);
-  loadFile(10);
 }
 
 
 void draw() {
   background(255);
   mousePress();
+  if(file != null){
   image(work, posWork.x, posWork.y);
+  }
+  drawGUI();
 }
 
 void loadFile() {
@@ -23,9 +26,8 @@ void loadFile() {
 }
 
 void loadFile(int zoom) {
-  file = loadImage("02_gem.blend_page1-03.png");
   work = createGraphics(file.width * zoom + 200, file.height*zoom+1);
-
+  println("file size:"+file.width+"/"+file.height);
 
   file.loadPixels();
 
@@ -81,7 +83,7 @@ void loadFile(int zoom) {
 PVector mouseClicked;
 void mousePressed() {
   mouseClicked = new PVector(mouseX, mouseY);
-  println("mouseClicked: [x]:"+mouseClicked.x+"  [y]:"+mouseClicked.y);
+  //println("mouseClicked: [x]:"+mouseClicked.x+"  [y]:"+mouseClicked.y);
   //println(posWork);
 }
 
@@ -113,7 +115,7 @@ void mousePress(){
 }
 
 void keyReleased() {
-  if (key == 'e') {
+  if (key == 'e' && file !=null) {
     loadFile();
     work.save("export.jpg");
   }
