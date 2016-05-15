@@ -22,7 +22,7 @@ void draw() {
 }
 
 void loadFile() {
-  loadFile(20);
+  loadFile(zoom);
 }
 
 void loadFile(int zoom) {

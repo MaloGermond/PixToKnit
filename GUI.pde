@@ -1,18 +1,37 @@
+import controlP5.*;
 import drop.*;
 
+ControlP5 cp5;
 SDrop drop;
 MyDropListener dropZone;
 
 void initGUI() {
+  cp5 = new ControlP5(this);
   drop = new SDrop(this);
+  
+  
   dropZone = new MyDropListener(width-110, 10, 100);
   drop.addDropListener(dropZone);
+  
+  cp5.addSlider("sliderZoom")
+     .setPosition(width-110, 120)
+     .setSize(100,10)
+     .setRange(10,20)
+     ;
 }
 
 void drawGUI() {
 
   dropZone.draw();
-  
+}
+
+
+void sliderZoom(int _zoom) {
+  zoom = _zoom;
+  if(file!=null){
+  loadFile(zoom);
+  }
+  //println("the zoom is equal to  "+zoom);
 }
 
 void dropEvent(DropEvent theDropEvent) {
@@ -41,14 +60,21 @@ class MyDropListener extends DropListener {
 
   void draw() {
     stroke(0);
-    fill(myColor);
-    rect( pos[0], pos[1], size, size );
-    if (active){
-      fill(0);
-      text("drop your .png", pos[0]+3, pos[1]+(size/2)-10,size,size);
-    }else{
-      fill(0);
-      text("drop your .png here", pos[0]+3, pos[1]+(size/2)-10,size,size);
+
+    if (file == null) {
+      fill(myColor);
+      rect( pos[0], pos[1], size, size );
+      if (active) {
+        fill(0);
+        text("drop your .png", pos[0]+3, pos[1]+(size/2)-10, size, size);
+      } else {
+        fill(0);
+        text("drop your .png here", pos[0]+3, pos[1]+(size/2)-10, size, size);
+      }
+    } else {
+      fill(255);
+      rect(pos[0]-1, pos[1]-1, size+2, size+2);
+      image(file, pos[0], pos[1], size, size);
     }
   }
 
@@ -85,7 +111,7 @@ class MyDropListener extends DropListener {
       //file.loadImage(path);
       //println("### image loaded ...");
       //println("file size:"+file.width+"/"+file.height);
-      loadFile(10);
+      loadFile(zoom);
       //println("### file loaded ...");
     }
   }
