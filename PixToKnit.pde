@@ -14,9 +14,10 @@ void setup() {
 
 void draw() {
   background(255);
+  keyPress();
   mousePress();
-  if(file != null){
-  image(work, posWork.x, posWork.y);
+  if (file != null) {
+    image(work, posWork.x, posWork.y);
   }
   drawGUI();
 }
@@ -87,28 +88,35 @@ void mousePressed() {
   //println(posWork);
 }
 
-void mousePress(){
+void keyPress() {
+  if (keyPressed == true && keyCode == SHIFT) {
+    cursor(HAND);
+  } else {
+    cursor(ARROW);
+  }
+}
+
+void mousePress() {
   if (mousePressed == true) {
- 
-    
-    if ( keyPressed == true && keyCode == SHIFT) {
- 
-      if(posWork.x < -work.width){
+
+    if ( keyPressed == true && keyCode == SHIFT && file!=null) {
+      cursor(CROSS);
+      if (posWork.x < -work.width) {
         posWork.x = -work.width;
       }
-      if(posWork.x > work.width){
+      if (posWork.x > work.width) {
         posWork.x = work.width;
       }
-      if(posWork.y < -work.height){
+      if (posWork.y < -work.height) {
         posWork.y = -work.height;
       }
-      if(posWork.y > work.height){
+      if (posWork.y > work.height) {
         posWork.y = work.height;
       }
-          
+
       if (posWork.x >= -work.width && posWork.x <= work.width
         && posWork.y >= -work.height && posWork.y <= work.height) {         
-        posWork.set(mouseX - mouseClicked.x , mouseY - mouseClicked.y);
+        posWork.set(mouseX - mouseClicked.x, mouseY - mouseClicked.y);
       }
     }
   }
