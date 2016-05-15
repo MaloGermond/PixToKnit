@@ -8,6 +8,7 @@ PVector posWork;
 void setup() {
   size(800, 500);
   initGUI();
+  loadFile();
   posWork = new PVector(0, 0);
 }
 
@@ -22,6 +23,7 @@ void draw() {
 }
 
 void loadFile() {
+  file = loadImage("basic.png");
   loadFile(zoom);
 }
 
@@ -83,7 +85,7 @@ void loadFile(int zoom) {
 
 void keyPress() {
   if (keyPressed == true && key == ' ') {
-    cursor(HAND);
+    cursor(CROSS);
   } else {
     cursor(ARROW);
   }
@@ -94,7 +96,6 @@ void mouseDragged() {
   if (mousePressed == true) {
 
     if ( keyPressed == true && key == ' ' && file!=null) {
-      cursor(CROSS);
       PVector diff;
       if (posWork.x < -work.width) {
         posWork.x = -work.width;

@@ -17,6 +17,8 @@ void initGUI() {
      .setPosition(width-110, 120)
      .setSize(100,10)
      .setRange(10,20)
+     .setSliderMode(Slider.FLEXIBLE)
+     //.setColor(110,212,186)
      ;
 }
 
@@ -72,9 +74,16 @@ class MyDropListener extends DropListener {
         text("drop your .png here", pos[0]+3, pos[1]+(size/2)-10, size, size);
       }
     } else {
+      
       fill(255);
-      rect(pos[0]-1, pos[1]-1, size+2, size+2);
+      rect(pos[0]-1, pos[1]-1, size+1, size+1);
       image(file, pos[0], pos[1], size, size);
+      
+      if(active){
+        fill(100,200);
+        noStroke();
+        rect(pos[0], pos[1], size+1, size+1);
+      }
     }
   }
 
