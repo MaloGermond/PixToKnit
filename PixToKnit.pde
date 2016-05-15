@@ -6,7 +6,7 @@ int zoom = 10;
 PVector posWork;
 
 void setup() {
-  size(500, 500);
+  size(800, 500);
   initGUI();
   posWork = new PVector(0, 0);
 }

@@ -23,11 +23,12 @@ void dropEvent(DropEvent theDropEvent) {
 // a custom DropListener class.
 class MyDropListener extends DropListener {
 
-  color dropIn = color(255, 0, 0);
-  color dropOut = color(100);
+  color dropIn = color(#15BAEA);
+  color dropOut = color(200);
   color myColor = dropOut;
   int pos[] = new int[2];
   int size;
+  boolean active = false;
 
   MyDropListener(int _x, int _y, int _s) {
     // set a target rect for drop event.
@@ -39,20 +40,30 @@ class MyDropListener extends DropListener {
   }
 
   void draw() {
+    stroke(0);
     fill(myColor);
     rect( pos[0], pos[1], size, size );
+    if (active){
+      fill(0);
+      text("drop your .png", pos[0]+3, pos[1]+(size/2)-10,size,size);
+    }else{
+      fill(0);
+      text("drop your .png here", pos[0]+3, pos[1]+(size/2)-10,size,size);
+    }
   }
 
   // if a dragged object enters the target area.
   // dropEnter is called.
   void dropEnter() {
     myColor = dropIn;
+    active = true;
   }
 
   // if a dragged object leaves the target area.
   // dropLeave is called.
   void dropLeave() {
     myColor = dropOut;
+    active = false;
   }
 
   void dropEvent(DropEvent theDropEvent) {
