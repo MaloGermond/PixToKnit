@@ -15,7 +15,6 @@ void setup() {
 void draw() {
   background(255);
   keyPress();
-  mousePress();
   if (file != null) {
     image(work, posWork.x, posWork.y);
   }
@@ -28,7 +27,7 @@ void loadFile() {
 
 void loadFile(int zoom) {
   work = createGraphics(file.width * zoom + 200, file.height*zoom+1);
-  println("file size:"+file.width+"/"+file.height);
+  //println("file size:"+file.width+"/"+file.height);
 
   file.loadPixels();
 
@@ -41,10 +40,10 @@ void loadFile(int zoom) {
   int index = 0;
 
   for (int j=0; j<file.height; j++) {
-    work.noFill();
-    work.stroke(0);
+    work.noStroke();
+    work.fill(0);
     work.textSize(zoom);
-    work.text("L :"+j, work.width-180, j*zoom-zoom);
+    work.text("L :"+j, work.width-180, (j*zoom)+zoom);
 
     for (int i=0; i<file.width; i++) {
       int posX = i *zoom, posY = j*zoom;  
@@ -81,26 +80,22 @@ void loadFile(int zoom) {
 //
 //=======================================
 
-PVector mouseClicked;
-void mousePressed() {
-  mouseClicked = new PVector(mouseX, mouseY);
-  //println("mouseClicked: [x]:"+mouseClicked.x+"  [y]:"+mouseClicked.y);
-  //println(posWork);
-}
 
 void keyPress() {
-  if (keyPressed == true && keyCode == SHIFT) {
+  if (keyPressed == true && key == ' ') {
     cursor(HAND);
   } else {
     cursor(ARROW);
   }
 }
 
-void mousePress() {
+void mouseDragged() {
+
   if (mousePressed == true) {
 
-    if ( keyPressed == true && keyCode == SHIFT && file!=null) {
+    if ( keyPressed == true && key == ' ' && file!=null) {
       cursor(CROSS);
+      PVector diff;
       if (posWork.x < -work.width) {
         posWork.x = -work.width;
       }
@@ -115,8 +110,10 @@ void mousePress() {
       }
 
       if (posWork.x >= -work.width && posWork.x <= work.width
-        && posWork.y >= -work.height && posWork.y <= work.height) {         
-        posWork.set(mouseX - mouseClicked.x, mouseY - mouseClicked.y);
+        && posWork.y >= -work.height && posWork.y <= work.height) { 
+        diff = new PVector(mouseX, mouseY);
+        diff.sub(pmouseX, pmouseY);
+        posWork.add(diff);
       }
     }
   }
