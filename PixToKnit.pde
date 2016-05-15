@@ -18,6 +18,7 @@ void draw() {
   if(file != null){
   image(work, posWork.x, posWork.y);
   }
+  drawGUI();
 }
 
 void loadFile() {
